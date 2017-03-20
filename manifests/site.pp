@@ -1,11 +1,17 @@
-
-class { 'wordpress':
-  install_dir => '/var/www/wordpress',
-  db_name     => 'wordpress',
-  db_host     => 'localhost',
-  db_user     => 'wordpress',
-  db_password => 'insecure password',
-}
-
-    
-}
+package {'epel-release-6-8.noarch':
+    provider => 'rpm',
+    source => "http://ftp.linux.org.tr/epel/6/x86_64/epel-release-6-8.noarch.rpm",
+    ensure=>'installed'
+  }
+package { 'remi-release.noarch':
+    provider => 'rpm',
+    source => "http://rpms.famillecollet.com/enterprise/remi-release-6.rpm",
+    ensure =>'installed'
+  }
+package { 'atop': ensure => installed, }
+  service { 'atop':
+    ensure     => running,
+    enable     => true,
+    hasstatus  => true,
+    hasrestart => true,
+  }
